@@ -30,11 +30,10 @@ func main() {
 
 	// find all the javascript files
 	files, _ := filepath.Glob(search_pattern + "*js")
-	fmt.Println(files)
+	fmt.Println("Files:", files)
 
 	if len(files) <= 0 {
-		fmt.Println("No JavaScript files were found!")
-		return
+		panic("No JavaScript files were found!")
 	}
 
 	// compact all the javascript files into one
@@ -68,7 +67,7 @@ func main() {
 	// read the response
 	response_data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 
 	var j interface{}
@@ -92,6 +91,6 @@ func main() {
 	// save the compiled code to file
 	err = ioutil.WriteFile(target_file, []byte(result["compiledCode"].(string)), 0644)
 	if err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 }
