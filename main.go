@@ -29,7 +29,10 @@ func main() {
 	}
 
 	// find all the javascript files
-	files, _ := filepath.Glob(search_pattern + "*js")
+	files, err := filepath.Glob(search_pattern + "*js")
+	if err != nil {
+		panic(err)
+	}
 	fmt.Println("Files:", files)
 
 	if len(files) <= 0 {
@@ -38,13 +41,12 @@ func main() {
 
 	// compact all the javascript files into one
 	var buf []byte
-	var err error
-	var data = ""
+	var data string
 
-	for _, f := range files  {
+	for _, f := range files {
 		buf, err = ioutil.ReadFile(f)
 		if err != nil {
-			fmt.Println(err)
+			panic(err)
 		}
 		data += string(buf) + "\n"
 	}
